@@ -1,0 +1,184 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>jp.igapyon.diary.v3</groupId>
+	<artifactId>IgapyonV3</artifactId>
+	<version>1.2.10</version>
+	<packaging>jar</packaging>
+
+	<name>IgapyonV3</name>
+	<description>OSS diary generator system written in Java.</description>
+	<url>https://igapyon.github.io/igapyonv3/</url>
+
+	<!-- see: http://maven.apache.org/guides/mini/guide-central-repository-upload.html -->
+	<licenses>
+		<license>
+			<name>The GNU Lesser General Public License, Version 3.0</name>
+			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/igapyon/igapyonv3</url>
+	</scm>
+
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>[4.12,5.0)</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.ant/ant -->
+		<dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>ant</artifactId>
+			<version>[1.9.7,2.0)</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/commons-cli/commons-cli -->
+		<dependency>
+			<groupId>commons-cli</groupId>
+			<artifactId>commons-cli</artifactId>
+			<version>[1.3.1,2.0)</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.pegdown/pegdown -->
+		<!-- currently version must be 1.5.0 -->
+		<dependency>
+			<groupId>org.pegdown</groupId>
+			<artifactId>pegdown</artifactId>
+			<version>1.5.0</version>
+		</dependency>
+
+		<!-- Apache FileUtils -->
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>[2.5,3.0)</version>
+		</dependency>
+
+		<!-- Apache StringUtil -->
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>[3.5,4.0)</version>
+		</dependency>
+
+		<!-- URLCodec -->
+		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>[1.10,2.0)</version>
+		</dependency>
+
+		<!-- normalize html tag -->
+		<!-- https://mvnrepository.com/artifact/org.ccil.cowan.tagsoup/tagsoup -->
+		<dependency>
+			<groupId>org.ccil.cowan.tagsoup</groupId>
+			<artifactId>tagsoup</artifactId>
+			<version>[1.2.1,2.0)</version>
+		</dependency>
+
+		<!-- template engine -->
+		<!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>[2.3.25-incubating,3.0)</version>
+		</dependency>
+
+		<!-- RSS parser -->
+		<!-- https://mvnrepository.com/artifact/com.rometools/rome -->
+		<dependency>
+			<groupId>com.rometools</groupId>
+			<artifactId>rome</artifactId>
+			<version>[1.7.0,2.0)</version>
+		</dependency>
+
+	</dependencies>
+
+	<!-- ===================================== -->
+	<!-- blanco Framework standard maven defs. -->
+	<!-- v201612251240 ....................... -->
+	<!-- ===================================== -->
+	<repositories>
+		<!-- igapyon repository -->
+		<repository>
+			<id>igapyon</id>
+			<name>igapyon maven repos</name>
+			<url>https://igapyon.github.io/igapyon-maven2</url>
+		</repository>
+	</repositories>
+
+	<distributionManagement>
+		<!-- deploy into local repository for github -->
+		<repository>
+			<id>deploy-repository</id>
+			<name>deployRepository</name>
+			<url>file:///${project.basedir}/../igapyon-maven2</url>
+		</repository>
+	</distributionManagement>
+
+	<!-- basic spec for jar -->
+	<properties>
+		<!-- set source as UTF-8 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<build>
+		<plugins>
+			<!-- compile as JDK 1.6 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.0</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+
+			<!-- create sources.jar -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- copy jar files into lib directory. -->
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
