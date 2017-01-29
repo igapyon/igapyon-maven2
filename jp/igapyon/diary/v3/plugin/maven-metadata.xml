@@ -2,7 +2,7 @@
 <metadata>
   <plugins>
     <plugin>
-      <name>igdiary-maven-plugin Maven Plugin</name>
+      <name>igdiary - igapyonv3 Maven Plugin</name>
       <prefix>igdiary</prefix>
       <artifactId>igdiary-maven-plugin</artifactId>
     </plugin>
